@@ -2,7 +2,8 @@
 export interface Player {
     id: number;
     name: string,
-    active: boolean;
     remainingScore: number;
     previousScore: number;
+    computer: boolean;
+    active: boolean;
 }

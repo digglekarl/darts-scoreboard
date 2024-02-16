@@ -177,3 +177,22 @@
 .calculator-buttons button:active {
   background-color: #e0e0e0;
 }
+
+.computer-submit-button button {
+  margin-top:10px;
+  padding: 20px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: red;
+  cursor: pointer;
+  width: 300px;
+  font-weight: 900;
+}
+
+.computer-score-display {
+  align-items: center;
+  justify-content: center;
+  font-size: calc(25px + 2vmin);
+  color: white;
+}
