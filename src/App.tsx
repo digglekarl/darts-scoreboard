@@ -15,6 +15,9 @@ function App() {
   const [player1IsActive, setPlayer1Active] = useState<boolean>(false);
   const [player2IsActive, setPlayer2Active] = useState<boolean>(false);
 
+  const [showPlayer1Score, setPlayer1Score] = useState<boolean>(false);
+  const [showPlayer2Score, setPlayer2Score] = useState<boolean>(false);
+
   const [players, setPlayers] = useState<{ [key: number]: Player }>({});
 
   const handleNewGameClick = () => {
@@ -23,27 +26,28 @@ function App() {
   }
 
   const handlePlayerClick = (value: number) => {
-    
+
     Object.keys(players).forEach((key, value) => {
 
       var p = players[+key];
 
-      if (p.id === value){
+      if (p.id === value) {
         p.active = true;
       }
       else {
         p.active = false;
       }
     });
-    
-    if (value === 1){
+
+    if (value === 1) {
       setPlayer1Active(true);
       setPlayer2Active(false);
-      //setActivePlayer()
-    } 
+      setActivePlayer(players[1]);
+    }
     else if (value === 2) {
-       setPlayer2Active(true);
-       setPlayer1Active(false);
+      setPlayer2Active(true);
+      setPlayer1Active(false);
+      setActivePlayer(players[2]);
     }
 
     setPlayers(players);
@@ -53,12 +57,23 @@ function App() {
   const handleButtonClick = (value: string) => {
     if (value === 'Clear') {
       setDisplay('');
-    } else if (value=== 'Add') {
+    } else if (value === 'Add') {
       add();
     } else if (value === 'submit') {
       evaluate();
       setDisplay('');
     } else {
+      if (activePlayer) {
+        if (activePlayer.id === 1) {
+          setPlayer1Score(true);
+          setPlayer2Score(false);
+        }
+        else if (activePlayer.id === 2) {
+          setPlayer2Score(true);
+          setPlayer1Score(false);
+        }
+      }
+
       setDisplay(prevDisplay => prevDisplay + value);
     }
   };
@@ -91,12 +106,14 @@ function App() {
           setPlayer1(activePlayer.remainingScore);
           setPlayer1Active(false);
           setPlayer2Active(true);
+          setPlayer1Score(false);
           setActivePlayer(players[2]);
         }
         else if (activePlayer.id === 2) {
           setPlayer2(activePlayer.remainingScore);
           setPlayer1Active(true);
           setPlayer2Active(false);
+          setPlayer2Score(false);
           setActivePlayer(players[1]);
         }
       }
@@ -107,8 +124,8 @@ function App() {
 
   const initGame = () => {
 
-    players[1] = { id: 1, name: 'Player 1', active: false, remainingScore: 0, previousScore: 0 };
-    players[2] = { id: 2, name: 'Player 2', active: false, remainingScore: 0, previousScore: 0 };
+    players[1] = { id: 1, name: 'HOME', active: false, remainingScore: 0, previousScore: 0 };
+    players[2] = { id: 2, name: 'AWAY', active: false, remainingScore: 0, previousScore: 0 };
 
     Object.keys(players).forEach((key, value) => {
 
@@ -124,7 +141,7 @@ function App() {
     setActivePlayer(activePlayer);
 
     setPlayers(players);
-    
+
     setPlayer1(players[1].remainingScore);
     setPlayer2(players[2].remainingScore);
 
@@ -133,13 +150,13 @@ function App() {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       setKeyPressed(event.key);
-      if (event.key === 'Enter'){
+      if (event.key === 'Enter') {
         handleButtonClick('submit');
       }
       else {
         handleButtonClick(event.key);
       }
-      
+
     };
 
     const handleKeyUp = () => {
@@ -170,30 +187,37 @@ function App() {
               <div className="container">
                 <div className="column">
                   <header className="column-header">
-                    Player 1
+                    {players[1].name}
                   </header>
+                  <svg width="100" height="100">
+                    <circle cx="50" cy="50" r="40" fill="red" />
+                  </svg>
                 </div>
                 <div className="column">
                   <header className="column-header">
                     Darts Scoreboard
                   </header>
+                  <img src="./darts.jpg" width="100" height="100"></img>
                 </div>
                 <div className="column">
                   <header className="column-header">
-                    Player 2
+                    {players[2].name}
                   </header>
+                  <svg width="100" height="100">
+                    <circle cx="50" cy="50" r="40" fill="blue" />
+                  </svg>
                 </div>
               </div>
 
               <div className="container">
                 <div className={player1IsActive ? 'column active' : 'column inactive'} >
                   <div className="player-display" onClick={() => handlePlayerClick(1)}>
-                    <label id="player1-score">{player1}</label>
+                    <div> {showPlayer1Score ? display : player1}</div>
                   </div>
                 </div>
                 <div className="column">
                   <div className="calculator">
-                    <div className="calculator-display">{display}</div>
+                    <div className="calculator-display hidden">{display}</div>
                     <div className="calculator-buttons">
                       {['1', '2', '3',
                         '4', '5', '6',
@@ -213,13 +237,13 @@ function App() {
                 </div>
                 <div className={player2IsActive ? 'column active' : 'column inactive'}>
                   <div className="player-display" onClick={() => handlePlayerClick(2)}>
-                    <label id="player2-score">{player2}</label>
+                    <div> {showPlayer2Score ? display : player2}</div>
                   </div>
                 </div>
               </div>
 
               <div>
-                <label></label>
+
               </div>
             </div>
 
