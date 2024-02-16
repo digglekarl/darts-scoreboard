@@ -1,0 +1,171 @@
+.App {
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.App-header button {
+  margin-top:10px;
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: red;
+  cursor: pointer;
+  width: 300px;
+}
+
+/* Styles for the container */
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Styles for each column */
+.column {
+  width: 30%; /* Adjust as needed */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.active {
+  background-color: #667083;
+}
+
+.inactive {
+  background-color: #282c34;
+}
+
+.column-header {
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+/* Adjustments for responsiveness */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .column {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.player-score {
+  align-items: center;
+  justify-content: center;
+  font-size: calc(75px + 2vmin);
+  color: white;
+}
+
+
+.player-display {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 10px;
+  font-size: calc(75px + 2vmin);
+  min-height: 10vh;
+}
+
+
+.player-previous-score {
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.calculator {
+  width: 300px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.calculator-display {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 10px;
+  font-size: 50px;
+  min-height: 12vh;
+}
+
+.calculator-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 5px;
+}
+
+.calculator-buttons button {
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.calculator-submit-button button {
+  margin-top:10px;
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: red;
+  cursor: pointer;
+  width: 300px;
+}
+
+.calculator-buttons button:hover {
+  background-color: #f0f0f0;
+}
+
+.calculator-buttons button:active {
+  background-color: #e0e0e0;
+}
