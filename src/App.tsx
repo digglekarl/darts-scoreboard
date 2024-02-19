@@ -25,8 +25,8 @@ function App() {
 
   const [player2ComputerScores, setComputerScores] = useState<string[]>([]);
 
-  const handleNewGameClick = (mode: GameMode) => {
-    initGame(mode);
+  const handleNewGameClick = (mode: GameMode, score: number) => {
+    initGame(mode, score);
     setCondition(true);
   }
 
@@ -138,8 +138,9 @@ function App() {
     }
   };
 
-  const initGame = (mode: GameMode) => {
+  const initGame = (mode: GameMode, score: number) => {
 
+    maxScore = score;
     players[1] = { id: 1, name: 'HOME', remainingScore: 0, previousScore: 0, computer: false, active: false };
     players[2] = { id: 2, name: 'AWAY', remainingScore: 0, previousScore: 0, computer: false, active: false };
 
@@ -246,7 +247,6 @@ function App() {
       const score = calculateScore();
    
       setComputerScores(scores);
-
       totalScore += score;
 
       /*totalScore -= score;
@@ -264,7 +264,10 @@ function App() {
       setPlayer1Active(true);
       setPlayer2Active(false);
       setPlayer2Score(false);
+      
+      setActivePlayer(players[1]);
 
+      return 0;
     }
 
     p.remainingScore = p.previousScore - +totalScore;
@@ -326,8 +329,9 @@ function App() {
       {
         !condition ? (
           <header className="App-header">
-            <button onClick={() => handleNewGameClick(GameMode.Player)}>New Game</button>
-            <button onClick={() => handleNewGameClick(GameMode.Computer)}>New Game With Computer</button>
+            <button onClick={() => handleNewGameClick(GameMode.Player, 301)}>301</button>
+            <button onClick={() => handleNewGameClick(GameMode.Player, 501)}>501</button>
+            <button onClick={() => handleNewGameClick(GameMode.Computer, 301)}>New Game With Computer</button>
           </header>
         ) :
           (
