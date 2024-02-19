@@ -6,4 +6,8 @@ export interface Player {
     previousScore: number;
     computer: boolean;
     active: boolean;
+    scores: Array<number>;
+    averages: Array<number>;
+    dartsThrown: number;
+    avg: {[dartsThrown: number]: number};
 }

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Player } from './Player';
+import { possibleOuts } from './PossibleOuts';
 
 function App() {
   let maxScore: number = 301;
   let scores: string[] = [];
+
+  let dartsThrown: number[] = [3, 6, 9, 12, 15, 18, 21];
 
   const [keyPressed, setKeyPressed] = useState<string>('');
   const [condition, setCondition] = useState<boolean>(false);
@@ -24,6 +27,8 @@ function App() {
   const [gameMode, setGameMode] = useState<GameMode>();
 
   const [player2ComputerScores, setComputerScores] = useState<string[]>([]);
+
+
 
   const handleNewGameClick = (mode: GameMode, score: number) => {
     initGame(mode, score);
@@ -109,8 +114,16 @@ function App() {
           return;
         }
 
+        activePlayer.dartsThrown += 3;
         activePlayer.remainingScore = activePlayer.previousScore - +result;
         activePlayer.previousScore = activePlayer.remainingScore;
+
+        activePlayer.scores.push(activePlayer.remainingScore);
+
+        const average = (maxScore - activePlayer?.remainingScore) / activePlayer?.dartsThrown;
+        activePlayer?.averages.push(Math.ceil(average));
+
+        activePlayer.avg[activePlayer.dartsThrown] = Math.ceil(average);
 
         if (activePlayer.remainingScore == 0) {
           setCondition(false);
@@ -141,8 +154,8 @@ function App() {
   const initGame = (mode: GameMode, score: number) => {
 
     maxScore = score;
-    players[1] = { id: 1, name: 'HOME', remainingScore: 0, previousScore: 0, computer: false, active: false };
-    players[2] = { id: 2, name: 'AWAY', remainingScore: 0, previousScore: 0, computer: false, active: false };
+    players[1] = { id: 1, name: 'HOME', remainingScore: 0, previousScore: 0, computer: false, active: false, scores: [score], averages: [], dartsThrown: 0, avg: {} };
+    players[2] = { id: 2, name: 'AWAY', remainingScore: 0, previousScore: 0, computer: false, active: false, scores: [score], averages: [], dartsThrown: 0, avg: {} };
 
     if (mode === GameMode.Computer) {
       players[2].computer = true;
@@ -166,6 +179,7 @@ function App() {
     setPlayer2(players[2].remainingScore);
 
   }
+
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -207,12 +221,12 @@ function App() {
 
     var score = possibilities[index];
 
-    if(score === 0 || score === 25) {
+    if (score === 0 || score === 25) {
       scores.push(`${score}`);
       return score;
     }
 
-    if (score === 50){
+    if (score === 50) {
       scores.push(`Bull`);
       return score;
     }
@@ -234,7 +248,7 @@ function App() {
       scores.push(`${score}`);
       //return score; // Single score
     }
-    
+
 
     return dartScore;
   }
@@ -245,9 +259,10 @@ function App() {
     for (let i = 0; i < 3; i++) {
       await new Promise<void>(resolve => setTimeout(resolve, delay)); // Add delay between throws
       const score = calculateScore();
-   
+
       setComputerScores(scores);
       totalScore += score;
+
 
       /*totalScore -= score;
       if (totalScore === 2) { // Check if the player's remaining score is exactly 2
@@ -258,13 +273,14 @@ function App() {
 
     var p = players[2];
 
+
     if (+totalScore > p.remainingScore) {
       resetDisplays();
 
       setPlayer1Active(true);
       setPlayer2Active(false);
       setPlayer2Score(false);
-      
+
       setActivePlayer(players[1]);
 
       return 0;
@@ -273,6 +289,15 @@ function App() {
     p.remainingScore = p.previousScore - +totalScore;
     p.previousScore = p.remainingScore;
     p.active = false;
+
+    p.scores.push(p.remainingScore);
+
+    p.dartsThrown += 3;
+
+    const average = (maxScore - p?.remainingScore) / p?.dartsThrown;
+    p?.averages.push(Math.ceil(average));
+
+    p.avg[p.dartsThrown] = Math.ceil(average);
 
     setPlayers(players);
 
@@ -366,6 +391,19 @@ function App() {
                   <div className="player-display" onClick={() => handlePlayerClick(1)}>
                     <div> {showPlayer1Score ? display : player1}</div>
                   </div>
+
+                  <div className='container'>
+
+                    <div className='column player-score-display'>
+                      {players[1].scores.map((score, idx) => (
+                        <div key={idx} style={{ marginBottom: '5px' }}>{score}</div>
+                      ))}
+                    </div>
+
+                    <div className='column player-outs-display'>
+                      <div style={{ marginBottom: '5px' }}>{possibleOuts[players[1].remainingScore]}</div>
+                    </div>
+                  </div>
                 </div>
                 <div className="column">
                   <div className="calculator">
@@ -391,12 +429,43 @@ function App() {
                   <div className="player-display" onClick={() => handlePlayerClick(2)}>
                     <div> {showPlayer2Score ? display : player2}</div>
                   </div>
-                  <div className={player2IsActive && players[2].computer === true ? 'computer-submit-button' : 'hidden'}><button onClick={() => computerTurnWithDelay()}>Computer Turn</button></div>
+
+                  <div className='container'>
+                    <div className='column player-score-display'>
+                      {players[2].scores.map((score, idx) => (
+                        <div key={idx} style={{ marginBottom: '5px' }}>{score}</div>
+                      ))}
+                    </div>
+
+                    <div className='column player-outs-display'>
+                      <div style={{ marginBottom: '5px' }}>{possibleOuts[players[2].remainingScore]}</div>
+                    </div>
+                  </div>
 
                   <div className={players[2].computer === true ? 'computer-score-display' : ' hidden'}>
                     {player2ComputerScores.join(",")}
                   </div>
+
+                  <div className={player2IsActive && players[2].computer === true ? 'computer-submit-button' : 'hidden'}><button onClick={() => computerTurnWithDelay()}>Computer Turn</button></div>
                 </div>
+
+              </div>
+
+              <div className='container'>
+                <div className='column player-averages-display'>
+                  <div>Averages</div>
+                  <div>Player 1</div>
+                  <div>Player 2</div>
+                </div>
+
+                {dartsThrown.map((d, idx) => (
+                  <div className='column player-averages-display'>
+                    <div key={idx}>{d} Darts</div>
+                    <div key={`player1 ${idx}`}>{players[1].avg[d]}</div>
+                    <div key={`player2 ${idx}`}>{players[2].avg[d]}</div>
+                  </div>
+                ))}
+
 
               </div>
 
