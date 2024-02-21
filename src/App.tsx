@@ -24,10 +24,10 @@ function App() {
 
   const [players, setPlayers] = useState<{ [key: number]: Player }>({});
 
-  const [gameMode, setGameMode] = useState<GameMode>();
 
   const [player2ComputerScores, setComputerScores] = useState<string[]>([]);
 
+  const [isVisible, setIsVisible] = useState(false);
 
 
   const handleNewGameClick = (mode: GameMode, score: number) => {
@@ -68,6 +68,7 @@ function App() {
       setDisplay('');
     } else if (value === 'Add') {
       add();
+      setDisplay('');
     } else if (value === 'submit') {
       evaluate();
       setDisplay('');
@@ -91,11 +92,26 @@ function App() {
   const add = () => {
     const result = eval(display);
     if (activePlayer) {
-
+      if (result === undefined || +result > 180 || +result > activePlayer.remainingScore) {
+        resetDisplays();
+        return;
+      }
       activePlayer.remainingScore = activePlayer.previousScore + +result;
       activePlayer.previousScore = activePlayer.remainingScore;
-      if (activePlayer.id === 1) setPlayer1(activePlayer.remainingScore);
-      else if (activePlayer.id === 2) setPlayer2(activePlayer.remainingScore);
+      if (activePlayer.id === 1) {
+        setPlayer1(activePlayer.remainingScore);
+        setPlayer1Active(false);
+        setPlayer2Active(true);
+        setPlayer1Score(false);
+        setActivePlayer(players[2]);
+      }
+      else if (activePlayer.id === 2) {
+        setPlayer2(activePlayer.remainingScore);
+        setPlayer1Active(true);
+        setPlayer2Active(false);
+        setPlayer2Score(false);
+        setActivePlayer(players[1]);
+      }
     }
   }
 
@@ -114,6 +130,10 @@ function App() {
           return;
         }
 
+        if (result === 180) {
+          showAnimation(1000);
+        }
+
         activePlayer.dartsThrown += 3;
         activePlayer.remainingScore = activePlayer.previousScore - +result;
         activePlayer.previousScore = activePlayer.remainingScore;
@@ -125,7 +145,7 @@ function App() {
 
         activePlayer.avg[activePlayer.dartsThrown] = Math.ceil(average);
 
-        if (activePlayer.remainingScore == 0) {
+        if (activePlayer.remainingScore === 0) {
           setCondition(false);
         }
 
@@ -150,6 +170,11 @@ function App() {
       setDisplay('Error');
     }
   };
+
+  const showAnimation = async (delay: number) => {
+    setIsVisible(true);
+    await new Promise<void>(resolve => setTimeout(resolve, delay)); // Add delay between throws
+  }
 
   const initGame = (mode: GameMode, score: number) => {
 

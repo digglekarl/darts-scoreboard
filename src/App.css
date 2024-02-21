@@ -210,3 +210,16 @@
   font-size: calc(25px + 2vmin);
   color: white;
 }
+
+
+.animation {
+  background-color: #007bff;
+  transition: width 0.5s, height 0.5s;
+  
+  font-size: calc(175px + 2vmin);
+}
+
+.box:hover {
+  width: 150px;
+  height: 150px;
+}
