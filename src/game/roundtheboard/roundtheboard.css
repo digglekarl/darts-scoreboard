@@ -1,0 +1,12 @@
+
+button:disabled{
+    background-color: #cccccc; 
+    border: 1px solid #282c34;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 10px;
+    font-size: calc(50px + 2vmin);
+    min-height: 10vh;
+    color: #999999;
+    cursor:not-allowed;
+}

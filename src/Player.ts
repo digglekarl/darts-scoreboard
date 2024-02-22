@@ -11,3 +11,11 @@ export interface Player {
     dartsThrown: number;
     avg: {[dartsThrown: number]: number};
 }
+
+export interface KillerPlayer {
+    position: number;
+    name: string;
+    chosenNumber: string;
+    numHits: number;
+    isKiller: boolean;
+}
