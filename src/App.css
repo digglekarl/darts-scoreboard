@@ -40,6 +40,9 @@
   }
 }
 
+.App-header input {
+  width: 300px;
+}
 .App-header button {
   margin-top:10px;
   padding: 10px;
@@ -49,6 +52,7 @@
   background-color: red;
   cursor: pointer;
   width: 300px;
+  min-height: 10vh;
 }
 
 /* Styles for the container */
@@ -222,4 +226,8 @@
 .box:hover {
   width: 150px;
   height: 150px;
+}
+
+.centered-input {
+  text-align: center;
 }

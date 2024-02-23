@@ -15,19 +15,14 @@ function Main() {
     const [player1, setPlayer1] = useState<number>(maxScore);
     const [player2, setPlayer2] = useState<number>(maxScore);
     const [activePlayer, setActivePlayer] = useState<Player>();
-
     const [player1IsActive, setPlayer1Active] = useState<boolean>(false);
     const [player2IsActive, setPlayer2Active] = useState<boolean>(false);
-
     const [showPlayer1Score, setPlayer1Score] = useState<boolean>(false);
     const [showPlayer2Score, setPlayer2Score] = useState<boolean>(false);
-
     const [players, setPlayers] = useState<{ [key: number]: Player }>({});
-
-
     const [player2ComputerScores, setComputerScores] = useState<string[]>([]);
-
     const [isVisible, setIsVisible] = useState(false);
+    const [legs, setLegs] = useState(6);
 
 
     const handleNewGameClick = (mode: GameMode, score: number) => {
@@ -334,35 +329,6 @@ function Main() {
         return totalScore;
     }
 
-    const computerTurn = () => {
-
-        const throws = 3;
-        let totalScore = 0;
-        for (let i = 0; i < throws; i++) {
-            const score = calculateScore();
-            totalScore += score;
-        }
-
-        var p = players[2];
-
-        if (+totalScore > p.remainingScore) {
-            resetDisplays();
-            return 0;
-        }
-
-        p.remainingScore = p.previousScore - +totalScore;
-        p.previousScore = p.remainingScore;
-        p.active = false;
-
-        setPlayers(players);
-
-        setPlayer2(p.remainingScore);
-        setPlayer1Active(true);
-        setPlayer2Active(false);
-        setActivePlayer(players[1]);
-
-    }
-
     enum GameMode {
         Player,
         Computer
@@ -374,15 +340,29 @@ function Main() {
         Triple = 3
     }
 
+    const handleLegsChange = (value: string) => {
+        setLegs(+value);
+    }
+
     return (
         <div className="App">
             {
                 !condition ? (
-                    <header className="App-header">
-                        <button onClick={() => handleNewGameClick(GameMode.Player, 301)}>301</button>
-                        <button onClick={() => handleNewGameClick(GameMode.Player, 501)}>501</button>
-                        <button onClick={() => handleNewGameClick(GameMode.Computer, 301)}>New Game With Computer</button>
-                    </header>
+                    <div>
+                        <header className="App-header">
+                            <input
+                                className='killer-display centered-input'
+                                type="text"
+                                value={legs}
+                                onChange={(e) => handleLegsChange(e.target.value)}
+                                placeholder='Legs'
+                            />
+                            <button onClick={() => handleNewGameClick(GameMode.Player, 301)}>301</button>
+                            <button onClick={() => handleNewGameClick(GameMode.Player, 501)}>501</button>
+
+                        </header>
+
+                    </div>
                 ) :
                     (
                         <div>
