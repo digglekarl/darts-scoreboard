@@ -50,7 +50,7 @@ function App() {
   return (
     <div className="App">
       <header className={mode === GameMode.Start ? "App-header" : 'hidden'}>
-        <button onClick={() => handleGameClick(GameMode.Darts)}>Pub Darts</button>
+        <button onClick={() => handleGameClick(GameMode.Darts)}>301 / 501</button>
         <button onClick={() => handleGameClick(GameMode.Killer)}>Killer</button>
         <button onClick={() => handleGameClick(GameMode.RoundTheBoard)}>Round The Board</button>
         <button onClick={() => handleGameClick(GameMode.Cricket)}>Cricket</button>

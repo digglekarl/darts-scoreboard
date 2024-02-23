@@ -46,13 +46,15 @@
 .App-header button {
   margin-top:10px;
   padding: 10px;
-  font-size: 18px;
+  font-size: 25px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: red;
   cursor: pointer;
   width: 300px;
   min-height: 10vh;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 /* Styles for the container */
@@ -70,7 +72,7 @@
 }
 
 .active {
-  background-color: #667083;
+  background-color: #ccc;
 }
 
 .inactive {
@@ -122,9 +124,10 @@
 
 
 .player-score-display {
-  --display: flex;
-  --flex-direction: row; /* Align items in a row */
-  font-size: calc(10px + 2vmin);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size: calc(18px + 2vmin);
   color: white;
 }
 
@@ -138,7 +141,8 @@
 .player-outs-display {
   display: flex;
   flex-direction: column;
-  font-size: calc(8px + 2vmin);
+  text-align: center;
+  font-size: calc(18px + 2vmin);
   color: white;
 }
 

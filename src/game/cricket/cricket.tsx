@@ -64,7 +64,7 @@ function Cricket() {
 
     const scores: Array<string> = ['15', '16', '17', '18', '19', '20', 'BULL'];
 
-    const [inputPlayersValue, setinputPlayersValue] = useState('');
+    const [inputPlayersValue, setinputPlayersValue] = useState('4');
     const [inputNameValues, setInputNameValues] = useState<PlayerDict>({});
     const [inputHitValues, setInputHitValues] = useState<ScoreDict>({});
 
@@ -115,7 +115,7 @@ function Cricket() {
                 <div></div>
                 <div className="column App-header">
                     <input
-                        className='player-display input'
+                        className='player-display centered-input'
                         type="text"
                         id="numPlayers"
                         value={inputPlayersValue}

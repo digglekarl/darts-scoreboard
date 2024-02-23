@@ -13,12 +13,12 @@ function RoundTheBoard() {
     const names: PlayerDict = {};
     const numbers: PlayerDict = {};
 
-    const [inputPlayersValue, setinputPlayersValue] = useState('');
+    const [inputPlayersValue, setinputPlayersValue] = useState('4');
     const [inputNameValues, setInputNameValues] = useState<PlayerDict>({});
     const [inputNumberValues, setInputNumberValues] = useState<PlayerDict>({});
 
     for (let i = 1; i <= +inputPlayersValue; i++) {
-        names[i] = '';
+        names[i] = `Player ${i}`;
         numbers[i] = '0';
     }
 
@@ -47,14 +47,13 @@ function RoundTheBoard() {
     const handleHitChange = (key: string, value: string) => {
         let currentNumber = parseInt((inputNumberValues[+key] || '1'));
 
-        if (twentyFive[value].includes(currentNumber))
-        {
+        if (twentyFive[value].includes(currentNumber)) {
             setInputNumberValues({
                 ...inputNumberValues,
                 [key]: '25'
             });
         }
-        else if (bull[value].includes(currentNumber)){
+        else if (bull[value].includes(currentNumber)) {
             setInputNumberValues({
                 ...inputNumberValues,
                 [key]: 'BULL'
@@ -63,20 +62,20 @@ function RoundTheBoard() {
         else if (value === 'x1') {
             setInputNumberValues({
                 ...inputNumberValues,
-                [key]: currentNumber+=1
+                [key]: currentNumber += 1
             });
         }
         else if (value === 'x2') {
             setInputNumberValues({
                 ...inputNumberValues,
-                [key]: currentNumber+=2
+                [key]: currentNumber += 2
             });
         }
         else if (value === 'x3') {
-            
+
             setInputNumberValues({
                 ...inputNumberValues,
-                [key]: currentNumber+=3
+                [key]: currentNumber += 3
             });
         }
     };
@@ -88,7 +87,7 @@ function RoundTheBoard() {
                         <div></div>
                         <div className="column App-header">
                             <input
-                                className='player-display input'
+                                className='player-display centered-input'
                                 type="text"
                                 id="numPlayers"
                                 value={inputPlayersValue}
@@ -129,15 +128,13 @@ function RoundTheBoard() {
                                     ))}
                                 </div>
                                 <div className="column">
-                                    <div>
-                                        {Object.entries(numbers).map(([key, value]) => (
-                                            <div>
-                                                <button className='column killer-display' onClick={() => handleHitChange(key, 'x1')} >x1</button>
-                                                <button disabled={inputNumberValues[+key] === '25' || inputNumberValues[+key] === 'BULL'} className='column killer-display' onClick={() => handleHitChange(key, 'x2')} >x2</button>
-                                                <button disabled={inputNumberValues[+key] === '25' || inputNumberValues[+key] === 'BULL'} className='column killer-display' onClick={() => handleHitChange(key, 'x3')} >x3</button>
-                                            </div>
-                                        ))}
-                                    </div>
+                                    {Object.entries(numbers).map(([key, value]) => (
+                                        <div>
+                                            <button className='killer-display' onClick={() => handleHitChange(key, 'x1')} >x1</button>
+                                            <button disabled={inputNumberValues[+key] === '25' || inputNumberValues[+key] === 'BULL'} className='killer-display' onClick={() => handleHitChange(key, 'x2')} >x2</button>
+                                            <button disabled={inputNumberValues[+key] === '25' || inputNumberValues[+key] === 'BULL'} className='killer-display' onClick={() => handleHitChange(key, 'x3')} >x3</button>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
@@ -147,13 +144,13 @@ function RoundTheBoard() {
     )
 }
 
-export const twentyFive: {[key: string]: Array<number>} = {
+export const twentyFive: { [key: string]: Array<number> } = {
     'x1': [20],
     'x2': [19],
     'x3': [18]
 }
 
-export const bull: {[key: string]: Array<number>} = {
+export const bull: { [key: string]: Array<number> } = {
     'x1': [25],
     'x2': [20],
     'x3': [19, 20]

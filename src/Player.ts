@@ -10,6 +10,7 @@ export interface Player {
     averages: Array<number>;
     dartsThrown: number;
     avg: {[dartsThrown: number]: number};
+    legsWon: number;
 }
 
 export interface KillerPlayer {

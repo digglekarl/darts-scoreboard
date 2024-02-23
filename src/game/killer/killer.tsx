@@ -10,7 +10,7 @@ function Killer() {
         [key: number]: string;
     }
 
-    const [inputPlayersValue, setinputPlayersValue] = useState('');
+    const [inputPlayersValue, setinputPlayersValue] = useState('4');
     const [inputNameValues, setInputNameValues] = useState<PlayerDict>({});
     const [inputNumberValues, setInputNumberValues] = useState<PlayerDict>({});
     const [inputHitValues, setInputHitValues] = useState<PlayerDict>({});
@@ -22,9 +22,9 @@ function Killer() {
     const killers: PlayerDict = {};
 
     for (let i = 1; i <= +inputPlayersValue; i++) {
-        names[i] = '';
-        numbers[i] = '';
-        hits[i] = '';
+        names[i] =`Player ${i}`;
+        numbers[i] = '0';
+        hits[i] = '0';
         killers[i] = '';
     }
 
@@ -100,7 +100,7 @@ function Killer() {
                         <div></div>
                         <div className="column App-header">
                             <input
-                                className='player-display input'
+                                className='player-display centered-input'
                                 type="text"
                                 id="numPlayers"
                                 value={inputPlayersValue}
@@ -144,7 +144,7 @@ function Killer() {
                                         {Object.entries(numbers).map(([key, value]) => (
                                             <div>
                                                 <input
-                                                    className={inputHitValues[+key] === 'KILL' ? 'column killer-display flashing-text' : 'column killer-display'}
+                                                    className={inputHitValues[+key] === 'KILL' ? 'column-no-border killer-display flashing-text centered-input' : 'column-no-border killer-display centered-input'}
                                                     disabled
                                                     type="text"
                                                     id={key}

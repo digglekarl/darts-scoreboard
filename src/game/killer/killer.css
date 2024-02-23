@@ -17,6 +17,14 @@
     animation: flash 1s infinite alternate;
 }
 
+.column-no-border {
+    width: 30%; /* Adjust as needed */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border: none ;
+}
+
 @keyframes flash {
     from {
         opacity: 1;
